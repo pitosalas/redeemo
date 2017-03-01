@@ -6,18 +6,19 @@ class CommentsController < ApplicationController
   def index
     post_id = params[:post_id]
     @post = Post.find(post_id)
-    @comments = Comment.all
+    @comments = @post.comments
   end
 
-  # GET /comments/1
-  # GET /comments/1.json
   def show
+    @post = Post.find(params[:post_id])
+    @comment = Comment.find(params[:id])
+
   end
 
   # GET /comments/new
   def new
     @post = Post.find(params[:post_id])
-    @post.comments.new
+    @comment = @post.comments.new
   end
 
   # GET /comments/1/edit
@@ -27,11 +28,14 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.json
   def create
-    @comment = Comment.new(comment_params)
+    @post = Post.find(params[:post_id])
+    puts "*** #{comment_params.inspect}"
+    @comment = @post.comments.new(comment_params)
 
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
+        puts "******** #{@post.id} #{@comment.id}"
+        format.html { redirect_to post_comment_path(@post, @comment), notice: 'Comment was successfully created.' }
         format.json { render :show, status: :created, location: @comment }
       else
         format.html { render :new }

@@ -16,7 +16,7 @@
       <tr>
         <td><%= comment.body %></td>
         <td><%= comment.post_id %></td>
-        <td><%= link_to 'Show', post_comments_path(@post) %></td>
+        <td><%= link_to 'Show', post_comment_path(@post, comment) %></td>
         <td><%= link_to 'Edit', edit_post_comment_path(@post,comment) %></td>
       </tr>
     <% end %>
